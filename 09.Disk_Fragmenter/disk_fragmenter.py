@@ -13,6 +13,7 @@ def parse_input(file):
 def out_of_bounds(blank_index, number_index, disk_length):
     return blank_index >= number_index or blank_index >= disk_length or number_index < 0
 
+# Part 1
 def compress(disk):
     # Find first '.' from right and first number from left. Swap
     # Stop when index of number < index of '.'
@@ -33,6 +34,8 @@ def find_end_index(disk, disk_length, index, offset):
         end_index += offset
     return end_index
 
+
+# Part 2 
 def find_contiguous_blank_blocks(disk, disk_length):
     blanks = []
     blank_start = 0
@@ -76,11 +79,9 @@ def blockwise_compress(disk):
             continue
         if blank_end - blank_start >= difference:
             disk[blank_start:blank_start + difference], disk[number_start:number_end] = disk[number_start:number_end], disk[blank_start:blank_start + difference]
-            # blanks[blank_pointer] = (blank_start + difference, blank_end) # change the length of the blank in the blanks list
-            number_pointer += 1# update number_pointer
+            number_pointer += 1
             print(number_pointer)
             blanks = find_contiguous_blank_blocks(disk, disk_length)
-            # print(blanks)
             blank_block_count, blank_pointer = len(blanks), 0
         else:
             blank_pointer += 1
@@ -88,31 +89,8 @@ def blockwise_compress(disk):
             number_pointer += 1
             print(number_pointer)
             blank_pointer = 0
-        # print(disk)
-        # print(number_pointer, blank_pointer)
     return disk
 
-# def blockwise_compress(disk):
-#     disk_length = len(disk)
-#     blank_start, number_start = 0, disk_length - 1
-#     while True:
-#         while disk[blank_start] != '.':
-#             blank_start += 1
-#         while not isinstance(disk[number_start], int):
-#             number_start -= 1
-#         blank_end, number_end = find_end_index(disk, blank_start, 1), find_end_index(disk, number_start, -1)
-#         difference = number_start - number_end + 1
-#         if (blank_end - blank_start + 1) >= difference:
-#             # Swap
-#             disk[blank_start: blank_start + difference + 1], disk[number_end: number_start + 1] = disk[number_end: number_start + 1], disk[blank_start: blank_start + difference + 1]
-#         else:
-#             # Move onto finding the next continguous number block that fits
-#             number_start = number_end - 1
-#             while not isinstance(disk[number_start], int):
-#                 number_start -= 1
-#         number_start = disk_length - 1
-
-        
 
 def find_checksum(compact_disk):
     checksum = 0
