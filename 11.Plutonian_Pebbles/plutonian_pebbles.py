@@ -1,10 +1,9 @@
-import functools
 from collections import Counter 
 
-def parse_input(file):
+def parse_input(file: any):
     return Counter(map(int, file.read().strip().split()))
 
-def blink(stones):
+def blink(stones: Counter) -> Counter:
     new_arrangement = Counter()
     for stone, frequency in stones.items():
         if stone == 0: new_arrangement[1] += frequency
@@ -15,7 +14,7 @@ def blink(stones):
         else: new_arrangement[stone * 2024] += frequency
     return new_arrangement
 
-def find_stones_after_n_blinks(n: int, stones: Counter):
+def find_stones_after_n_blinks(n: int, stones: Counter) -> int:
     blink_count = 0
     while blink_count < n:
         stones = blink(stones)
