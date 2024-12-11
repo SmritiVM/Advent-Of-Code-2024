@@ -78,8 +78,6 @@ def count_X_MAS(grid):
             word_count += search_grid_X_MAS(grid, row, column)
     return word_count
 
-            
-    
 
 with open("./04.Ceres_Search/input.txt") as file:
     GRID = parse_input(file)
