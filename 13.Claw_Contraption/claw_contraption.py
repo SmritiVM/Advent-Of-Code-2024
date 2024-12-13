@@ -15,23 +15,24 @@ def solve_equations(a1, b1, c1, a2, b2, c2):
     eq2 = Eq((a2*t1+b2*t2), -c2)
     return solve((eq1, eq2), (t1, t2))
 
-def count_tokens():
+def count_tokens(part_2 = False):
     tokens = 0
     for machine in MACHINES:
         ax, ay, bx, by, px, py = machine
+        if part_2: px, py = px + 10000000000000, py + 10000000000000
         solution = solve_equations(ax, bx, px, ay, by, py)
         if not solution: continue
         a, b = solution.values()
         if int(a) != a or int(b) != b: continue
         a, b = abs(a), abs(b)
-        if a > 100 or b > 100: continue
-        else: 
-            tokens += a * 3 + b * 1
+        if not part_2 and (a > 100 or b > 100): continue
+        tokens += a * 3 + b * 1
     return tokens
 
 with open("./13.Claw_Contraption/input.txt") as file:
     MACHINES = parse_input(file)
     print(count_tokens())
+    print(count_tokens(part_2  = True))
 
 
 
