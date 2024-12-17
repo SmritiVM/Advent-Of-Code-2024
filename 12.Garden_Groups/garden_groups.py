@@ -26,15 +26,12 @@ def find_area_perimeter(garden_group):
     for x, y in garden_group:
         for dx, dy in DIRECTIONS:
             new_x, new_y = x + dx, y + dy
-            if out_of_bounds(new_x, new_y):
-                perimeter += 1
-                continue
-            if GARDEN[x][y] != GARDEN[new_x][new_y]: 
+            if out_of_bounds(new_x, new_y) or GARDEN[x][y] != GARDEN[new_x][new_y]:
                 perimeter += 1
     return area, perimeter
 
 def find_corners(garden_group):
-    corners = defaultdict(lambda : 0)
+    corners = defaultdict(int) # {corner: how_many_plots_share_it}
     for x, y in garden_group:
         for dx, dy in DIAGONAL_DIRECTIONS:
             new_x, new_y = x + dx, y + dy
@@ -58,7 +55,7 @@ def find_fencing_price():
     for x in range(ROWS):
         for y in range(COLUMNS):
             if (x, y) not in visited:
-                visited, current_group= search_depth_wise((x, y), visited)
+                visited, current_group = search_depth_wise((x, y), visited)
                 area, perimeter = find_area_perimeter(current_group)
                 corners = find_corners(current_group)
                 sides = find_sides(corners, current_group)
